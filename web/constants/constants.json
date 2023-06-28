@@ -1,0 +1,36 @@
+{
+  "definition": {
+    "name": "Home page hero 2",
+    "type": "home_page_hero_2",
+    "fieldDefinitions": [
+      {
+        "name": "Title",
+        "key": "title",
+        "type": "single_line_text_field"
+      },
+      {
+        "name": "Image/video",
+        "key": "image_video",
+        "type": "file_reference"
+      },
+      {
+        "name": "Order",
+        "key": "order",
+        "type": "single_line_text_field"
+      }
+    ]
+  }
+}
+
+// {
+//     "metaobject": {
+//       "type": "home_page_hero_2",
+//       "handle": "Test2",
+//       "fields": [
+//         {
+//           "key": "order",
+//           "value": "1"
+//         }
+//       ]
+//     }
+//   }

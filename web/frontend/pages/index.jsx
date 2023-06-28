@@ -10,83 +10,54 @@ import {
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation, Trans } from "react-i18next";
-
+import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 import { trophyImage } from "../assets";
 
 import { ProductsCard } from "../components";
 
 export default function HomePage() {
   const { t } = useTranslation();
+
+  const fetch = useAuthenticatedFetch();
+
+  const getShopinfo = async () => {
+    const res = await fetch("/api/shop-info");
+    const json = await res.json();
+    if (res.ok) {
+      console.log("Shop all info", json);
+    } else {
+      console.log("Error during getting shop info: ", json);
+    }
+  };
+
+  const getMetaobjects = async () => {
+    const res = await fetch("/api/all");
+    const json = await res.json();
+    if (res.ok) {
+      console.log(json);
+
+      const metaObjects = [];
+      json.edges.forEach(({ node }) => {
+        metaObjects.push(node);
+      });
+      console.log(metaObjects);
+    } else {
+      console.log(json);
+    }
+  };
+
   return (
     <Page narrowWidth>
       <TitleBar title={t("HomePage.title")} primaryAction={null} />
       <Layout>
         <Layout.Section>
           <Card sectioned>
-            <Stack
-              wrap={false}
-              spacing="extraTight"
-              distribution="trailing"
-              alignment="center"
-            >
-              <Stack.Item fill>
-                <TextContainer spacing="loose">
-                  <Text as="h2" variant="headingMd">
-                    {t("HomePage.heading")}
-                  </Text>
-                  <p>
-                    <Trans
-                      i18nKey="HomePage.yourAppIsReadyToExplore"
-                      components={{
-                        PolarisLink: (
-                          <Link url="https://polaris.shopify.com/" external />
-                        ),
-                        AdminApiLink: (
-                          <Link
-                            url="https://shopify.dev/api/admin-graphql"
-                            external
-                          />
-                        ),
-                        AppBridgeLink: (
-                          <Link
-                            url="https://shopify.dev/apps/tools/app-bridge"
-                            external
-                          />
-                        ),
-                      }}
-                    />
-                  </p>
-                  <p>{t("HomePage.startPopulatingYourApp")}</p>
-                  <p>
-                    <Trans
-                      i18nKey="HomePage.learnMore"
-                      components={{
-                        ShopifyTutorialLink: (
-                          <Link
-                            url="https://shopify.dev/apps/getting-started/add-functionality"
-                            external
-                          />
-                        ),
-                      }}
-                    />
-                  </p>
-                </TextContainer>
-              </Stack.Item>
-              <Stack.Item>
-                <div style={{ padding: "0 20px" }}>
-                  <Image
-                    source={trophyImage}
-                    alt={t("HomePage.trophyAltText")}
-                    width={120}
-                  />
-                </div>
-              </Stack.Item>
-            </Stack>
+            test
+            <button onClick={getShopinfo}>getSHopInfo</button>
+            <button onClick={getMetaobjects}>get first 250 metaobjects</button>
           </Card>
         </Layout.Section>
-        <Layout.Section>
-          <ProductsCard />
-        </Layout.Section>
+        <Layout.Section></Layout.Section>
       </Layout>
     </Page>
   );
