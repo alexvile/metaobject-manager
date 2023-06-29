@@ -1,18 +1,35 @@
-const GET_SHOP_INFO = `#graphql
-  query getShopInfo {
-    shop {
-      name
-      checkoutApiSupported
-      plan {
-        displayName
-        partnerDevelopment
-        shopifyPlus
+// 1.1 get metaobject definitions without connected metaobjects
+const GET_ALL_METAOBJECT_DEFINITIONS = `#graphql
+  query getAllMetaobjectDefinitions {
+    metaobjectDefinitions(first: 240) {
+      edges {
+        node {
+          id
+          metaobjectsCount
+          name
+          type
+          description
+          displayNameKey
+          access {
+            admin
+            storefront
+          }
+          fieldDefinitions {
+            description
+            key
+            name
+            required
+            type {
+              name
+              category
+            }
+          }
+        }
       }
     }
   }
 `;
-
-// 1 get all metaobjects
+// 1.2 get all metaobjects
 const GET_ALL_METAOBJECTS = `#graphql
   query getAllMetaobjects {
     metaobjects(first: 100, type: "") {
@@ -50,8 +67,10 @@ const GET_ALL_METAOBJECTS = `#graphql
   }
 `;
 
-// 2 create metaobject definition
-const CREATE_TEST_METAOBJECT_DEFINITION = `#graphql
+// 2 get metaobject by id
+
+// 3 create metaobject definition
+const CREATE_METAOBJECT_DEFINITION = `#graphql
   mutation CreateMetaobjectDefinition(
     $definition: MetaobjectDefinitionCreateInput!
   ) {
@@ -73,9 +92,9 @@ const CREATE_TEST_METAOBJECT_DEFINITION = `#graphql
   }
 `;
 
-// 3 create metaobject
+// 4 create metaobject
 
-const CREATE_TEST_METAOBJECT = `#graphql
+const CREATE_METAOBJECT = `#graphql
 mutation CreateMetaobject($metaobject: MetaobjectCreateInput!) {
   metaobjectCreate(metaobject: $metaobject) {
     metaobject {
@@ -94,10 +113,32 @@ mutation CreateMetaobject($metaobject: MetaobjectCreateInput!) {
 }
 `;
 
-// 4 update metaobject
+// 5 update metaobject
 
-// 5 delete metaobject
+// 6 delete metaobject
 
-// 6 delete metaobject definition
+export {
+  GET_ALL_METAOBJECT_DEFINITIONS,
+  GET_ALL_METAOBJECTS,
+  CREATE_METAOBJECT_DEFINITION,
+  CREATE_METAOBJECT,
+};
 
-export { GET_SHOP_INFO, GET_ALL_METAOBJECTS };
+// get metaobject definitions with connected metaobjects
+// {
+//   metaobjectDefinitions(first: 25) {
+//     edges {
+//       node {
+//         name
+//         type
+//         metaobjects(first:4){
+//           edges {
+//             node {
+//               displayName
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
