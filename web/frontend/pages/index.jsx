@@ -3,7 +3,7 @@ import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation, Trans } from "react-i18next";
 import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 import { useEffect, useState } from "react";
-import { metaobjectDefinition } from "../../constants/metaobject-definition";
+import { metaobjectDefinitionSettings } from "../../constants/metaobject-definition";
 import { metaobjectSettings } from "../../constants/metaobject";
 import { Metaobject } from "../components/metaobject";
 import { MetaobjectDefinition } from "../components/metaobject-definition";
@@ -14,7 +14,7 @@ export default function HomePage() {
   const fetch = useAuthenticatedFetch();
 
   const [metaobjects, setMetaobjects] = useState([]);
-  const [metaobjectDefinitions, setMetaobjectDefinitions] = useState([]);
+  const [metaobjectDefinitions, setMetaobjectDefinitions] = useState();
 
   const getMetaobjects = async () => {
     const res = await fetch("/api/metaobjects/all");
@@ -55,7 +55,7 @@ export default function HomePage() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(metaobjectDefinition),
+      body: JSON.stringify(metaobjectDefinitionSettings),
     });
     const json = await res.json();
 
@@ -89,7 +89,10 @@ export default function HomePage() {
     getMetaobjectDefinitions();
   }, []);
   useEffect(() => {
-    getMetaobjects();
+    if (metaobjectDefinitions) {
+      console.log("1");
+      getMetaobjects();
+    }
   }, [metaobjectDefinitions]);
 
   // todo - first we get only main info. after click at detail info - we fetch detail info
@@ -102,9 +105,6 @@ export default function HomePage() {
         <Layout.Section>
           <LegacyCard sectioned>
             <div>
-              <button onClick={getMetaobjectDefinitions}>get first</button>
-            </div>
-            <div>
               First
               <button onClick={initMetaobjectDefinitions}>
                 Init base metaobject definitions
@@ -115,7 +115,7 @@ export default function HomePage() {
               <button onClick={initMetaobjects}>Init base metaobjects</button>
             </div>
 
-            {metaobjectDefinitions.length > 0 && (
+            {metaobjectDefinitions?.length > 0 && (
               <div>
                 Metaobject Definitions (Base)
                 <ul>
@@ -125,7 +125,7 @@ export default function HomePage() {
                 </ul>
               </div>
             )}
-            {metaobjects.length > 0 && (
+            {metaobjects?.length > 0 && (
               <div>
                 Metaobjects
                 <ul>

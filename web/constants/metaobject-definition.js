@@ -1,4 +1,4 @@
-export const metaobjectDefinition = {
+export const metaobjectDefinitionSettings = {
   name: "Home page hero 3",
   type: "home_page_hero_3",
   fieldDefinitions: [

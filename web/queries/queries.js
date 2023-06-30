@@ -1,7 +1,7 @@
 // 1.1 get metaobject definitions without connected metaobjects
 const GET_ALL_METAOBJECT_DEFINITIONS = `#graphql
   query getAllMetaobjectDefinitions {
-    metaobjectDefinitions(first: 240) {
+    metaobjectDefinitions(first: 100) {
       edges {
         node {
           id
@@ -50,16 +50,18 @@ const GET_ALL_METAOBJECTS = `#graphql
             }
           }
           fields {
+            key
+            value
             definition {
               name
+              description
+              key
               required
               type {
                 category
                 name
               }
             }
-            key
-            value
           }
         }
       }
@@ -115,6 +117,22 @@ mutation CreateMetaobject($metaobject: MetaobjectCreateInput!) {
 
 // 5 update metaobject
 
+const UPDATE_METAOBJECT_BY_ID = `#graphql
+  mutation metaobjectUpdate($id: ID!, $metaobject: MetaobjectUpdateInput!) {
+    metaobjectUpdate(id: $id, metaobject: $metaobject) {
+      metaobject {
+        fields {
+          key
+          value
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
 // 6 delete metaobject
 
 export {
@@ -122,6 +140,7 @@ export {
   GET_ALL_METAOBJECTS,
   CREATE_METAOBJECT_DEFINITION,
   CREATE_METAOBJECT,
+  UPDATE_METAOBJECT_BY_ID,
 };
 
 // get metaobject definitions with connected metaobjects

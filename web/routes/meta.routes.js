@@ -46,4 +46,14 @@ metaRouter.post("/metaobjects/new", async (req, res) => {
   }
 });
 
+metaRouter.put("/metaobjects/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedMetaObject = await Service.updateMetaobject(res, id, req.body);
+    res.status(200).json(updatedMetaObject);
+  } catch (error) {
+    onError(error, res);
+  }
+});
+
 export { metaRouter };

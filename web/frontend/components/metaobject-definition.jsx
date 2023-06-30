@@ -1,6 +1,8 @@
+import { Metafield } from "./metafield";
+
 export const MetaobjectDefinition = ({ ...el }) => {
   console.log(el);
-  const { name, type, metaobjectsCount, id } = el;
+  const { name, type, metaobjectsCount, id, fieldDefinitions } = el;
   return (
     <li>
       <p>
@@ -18,12 +20,21 @@ export const MetaobjectDefinition = ({ ...el }) => {
       </p>
       <div>
         <strong>Connected to {metaobjectsCount} metaobjects</strong>
-        {/* <ul>
-              {fields.length > 0 &&
-                fields.map((el) => (
-                  <MetaobjectField key={el.key} fieldKey={el.key} {...el} />
-                ))}
-            </ul> */}
+
+        <strong>
+          <div>Fields</div>
+        </strong>
+        <ul>
+          {fieldDefinitions.length > 0 &&
+            fieldDefinitions.map((el) => (
+              <Metafield
+                key={el.key}
+                fieldKey={el.key}
+                {...el}
+                parent="definition"
+              />
+            ))}
+        </ul>
       </div>
     </li>
   );

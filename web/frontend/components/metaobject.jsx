@@ -1,4 +1,4 @@
-import { MetaobjectField } from "./metaobject-field";
+import { Metafield } from "./metafield";
 export const Metaobject = ({ ...el }) => {
   //   console.log(el);
   const { id, capabilities, displayName, type, fields } = el;
@@ -25,7 +25,12 @@ export const Metaobject = ({ ...el }) => {
         <ul>
           {fields.length > 0 &&
             fields.map((el) => (
-              <MetaobjectField key={el.key} fieldKey={el.key} {...el} />
+              <Metafield
+                key={el.key}
+                fieldKey={el.key}
+                {...el}
+                parent="metaobject"
+              />
             ))}
         </ul>
       </div>

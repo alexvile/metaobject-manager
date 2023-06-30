@@ -5,6 +5,7 @@ import {
   GET_ALL_METAOBJECTS,
   CREATE_METAOBJECT_DEFINITION,
   CREATE_METAOBJECT,
+  UPDATE_METAOBJECT_BY_ID,
 } from "../queries/queries.js";
 export class Service {
   static getClient(res) {
@@ -51,6 +52,22 @@ export class Service {
       data: {
         query: CREATE_METAOBJECT,
         variables: {
+          metaobject: incomingData,
+        },
+      },
+    });
+    // console.log(3, body);
+    return body.data;
+  }
+
+  static async updateMetaobject(res, metaobjectId, incomingData) {
+    console.log(incomingData);
+    const client = Service.getClient(res);
+    const { body } = await client.query({
+      data: {
+        query: UPDATE_METAOBJECT_BY_ID,
+        variables: {
+          id: metaobjectId,
           metaobject: incomingData,
         },
       },
